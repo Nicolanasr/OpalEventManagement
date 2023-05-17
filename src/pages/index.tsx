@@ -42,7 +42,7 @@ export default function Home() {
 
       <div className="w-[200px] mx-auto h-[1px] border-t my-12 border-dashed"></div>
 
-      <div className="isolatepx-6 lg:px-8">
+      <div className="isolatepx-6 px-4 lg:px-8">
         <form className="mx-auto max-w-xl" onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 text-black">
             <div>
