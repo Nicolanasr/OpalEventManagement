@@ -9,7 +9,7 @@ export default function Home() {
       <div className="container px-4 flex flex-col justify-center items-center mx-auto">
         <h2 className="font-extrabold text-priamry-white text-center text-xl md:text-4xl mb-4">Opal Event Management</h2>
         <div className="relative w-full m-auto h-[240px]">
-          <Image src="/opal-logo-nobg.png" alt="" fill style={{objectFit: 'contain'}} />
+          <Image src="/opal-logo-nobg.png" alt="Opal logo" fill style={{objectFit: 'contain'}} />
         </div>
         <h2 className="font-extrabold text-transparent text-xl md:text-4xl bg-clip-text bg-gradient-to-r from-primary-blue to-primary-pink h-[45px] mt-4">Coming Soon...</h2>
       </div>
