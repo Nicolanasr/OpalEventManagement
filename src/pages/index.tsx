@@ -24,7 +24,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col py-24 align-center justify-center " style={{ background: "radial-gradient(circle, rgba(22,18,70,1) 0%, rgba(20,21,44,1) 67%);"}}>
+    <div className="min-h-screen flex flex-col py-24 align-center justify-center text-white" style={{ background: "radial-gradient(circle, rgba(22,18,70,1) 0%, rgba(20,21,44,1) 67%);"}}>
       <div className="container px-4 flex flex-col justify-center items-center mx-auto">
         <h2 className="font-extrabold text-priamry-white text-center text-xl md:text-4xl mb-4">Opal Event Management</h2>
         <div className="relative w-full m-auto h-[240px]">
