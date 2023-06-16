@@ -8,7 +8,7 @@ const Header = (props: Props) => {
     const [mobileOpen, setMobileOpen] = useState(false);
 
     return (
-        <header className="shadow-md bg-dark-purple fixed top-0 left-0 right-0">
+        <header className="shadow-md bg-dark-purple fixed top-0 left-0 right-0 z-50">
             <div className="mx-auto max-w-screen-xl px-4 py-2">
                 <div className="flex items-center justify-between gap-4 lg:gap-10">
                     <div className="flex lg:w-0 lg:flex-1">
