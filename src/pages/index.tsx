@@ -1,87 +1,298 @@
+/* eslint-disable @next/next/no-img-element */
+import React from "react";
+
+import Banner from "@/components/Banner";
+import MainLayout from "@/components/layout/MainLayout";
 import Image from "next/image";
+import Link from "next/link";
 
-import { BsInstagram, BsFacebook, BsTiktok, BsWhatsapp } from "react-icons/bs"
-import { AiOutlineMail } from "react-icons/ai"
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper";
+import "swiper/css/navigation";
+import "swiper/css";
 
-export default function Home() {
+type Props = {};
 
-    async function handleSubmit(e: any) {
-        e.preventDefault();
-        const data: any = new FormData(e.currentTarget);
-        try {
-            const response = await fetch('/api/contact', {
-                method: 'post',
-                body: new URLSearchParams(data),
-            });
-            if (!response.ok) {
-                throw new Error(`Invalid response: ${response.status}`);
-            }
-            alert('Thanks for contacting us, we will get back to you soon!');
-        } catch (err) {
-            console.error(err);
-            alert("We can't submit the form, try again later?");
-        }
-    }
+const services: {
+    title: string;
+    body: string;
+    button: {
+        url: string;
+        text: string;
+    };
+    image: string;
+}[] = [
+        {
+            title: "Weddings",
+            body: `Offers a variety of packages to meet your specific wedding planning needs.
+We set a concept, create ideas, choose venue, decorate, animate, manage and execute customized and high end weddings
+All you need is <span style="font-family: var(--font-comorant);font-weight: 700;">LOVE</span> and a Wedding planner`,
+            button: {
+                text: "Learn more",
+                url: "#services/weddings",
+            },
+            image: "/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg",
+        },
+        {
+            title: "Birthdays",
+            body: `Whatever birthday party you are organizing, and whatever budget you are working with – we have the expertise & creative skills to create your dream event.
+We specialize in producing major birthday parties. Whether you are planning a small party; a bespoke nightclub for a 21st Birthday; a mini festival or a decadent soiree for a 50th.
+<span style="font-family: var(--font-comorant);font-weight: 700;">We've got you covered</span>`,
+            button: {
+                text: "Learn more",
+                url: "#services/weddings",
+            },
+            image: "/jon-tyson-CP68p1fZS8k-unsplash.jpg",
+        },
+        {
+            title: "Marriage Proposal",
+            body: `A proposal event is an opportunity for an individual to create a memorable and heartfelt experience for their partner. It goes beyond simply asking the question; it is about creating an atmosphere that reflects the unique bond shared between the couple. Whether it is an intimate setting or a grand gesture, the proposal event aims to capture the essence of their love story.`,
+            button: {
+                text: "Learn more",
+                url: "#services/weddings",
+            },
+            image: "/MARRY-ME-DINING-SETUP-1.jpeg",
+        },
+        {
+            title: "Bachelor Parties",
+            body: `It’s your best friend’s special night. Soon he or she will be mar- ried, and you want to send them off into that new life in style. Throw a stag party or a bachelor- ette fete with planning help from We Duet All Party Planners. We’ll help you throw a party that truly comes to life.`,
+            button: {
+                text: "Learn more",
+                url: "#services/weddings",
+            },
+            image: "/BACHELOR-PARTY-AT-TERRACE-1.jpg",
+        },
+        {
+            title: "Baptism",
+            body: `A baptism or christening is a time to welcome a new baby into the family faith.
+The party that follows the ceremony is a time for celebration of new life, tradition, and the circle of family and friends.
+We guarantee extraordinary ideas for your little one ’s christening, completely tailored to your wishes.
+<span style="font-family: var(--font-comorant);font-weight: 700;">We can create uniquely themed and beautiful parties for your little one.</span> `,
+            button: {
+                text: "Learn more",
+                url: "#services/weddings",
+            },
+            image: "/Blue-Gold-Garden-Baptism-Party-via-Karas-Party-Ideas-KarasPartyIdeas.com19-1.jpeg",
+        },
+        {
+            title: "First communion",
+            body: `The First Holy Communion is a very important occasion for people who follow the Catholic faith. It is an intensely religious event and is as important as planning parties for other milestones like a baby shower or first birthday. This is a special day for your little one and the day is often celebrated with the closest family and friends.
+<span style="font-family: var(--font-comorant);font-weight: 700;">Beautiful Ideas to Celebrate Your Child’s First Communion</span>`,
+            button: {
+                text: "Learn more",
+                url: "#services/weddings",
+            },
+            image: "/633df1a86846594d47705331-ubuy-online-shopping.jpg",
+        },
 
+        {
+            title: "Gender Reveal",
+            body: `One of the most exciting parts of being pregnant is finding out whether you're expecting a little boy or girl, and a gender reveal party is a cool way to get friends and family involved.
+If you're planning to find out and share the gender of your baby before he or she is born, here's how to plan a gender reveal party, as well as some creative party ideas to make your reveal even more memorable and fun.`,
+            button: {
+                text: "Learn more",
+                url: "#services/weddings",
+            },
+            image: "/Unique-Gender-Reveal-Ideas-2022_1000x.webp",
+        },
+        {
+            title: "Baby Shower",
+            body: `A baby shower is a party of gift-giving or a ceremony that has different names in different cul- tures. It celebrates the delivery or expected birth of a child or the transformation of a woman into a mother.
+Your baby is almost here and your loved ones are ready to shower them with gifts and good wishes. Sure taking your baby shower virtual is a big shift from what you had planned, but don't let that stop you. Gather your list of guests and let's get started!`,
+            button: {
+                text: "Learn more",
+                url: "#services/weddings",
+            },
+            image: "/Magical-Baby-Shower-2.jpeg",
+        },
+        {
+            title: "Private Parties",
+            body: `We Have The Creativity & Event Management Skills To Make Your Ideas Come Alive.
+We Deliver A Seamless Event Management Service Catered To You & Your Ideas specially for your <span style="font-family: var(--font-comorant);font-weight: 700;">PRIVATE PARTIES</span>`,
+            button: {
+                text: "Learn more",
+                url: "#services/weddings",
+            },
+            image: "/Hotham-Hall-private-event-design.jpg",
+        },
+        {
+            title: "Divorce Parties",
+            body: `A fun step by step guide to throwing a divorce or breakup party. ...
+We take care of The Divorce Party event: How to Throw a Divorce Or Breakup Party !`,
+            button: {
+                text: "Learn more",
+                url: "#services/weddings",
+            },
+            image: "/6b05c4f8-e57d-4043-b315-01f342218bc4.8e248a90f2f02c5c15746e362f276403.jpeg",
+        },
+    ];
+
+const home = (props: Props) => {
     return (
-        <div className="min-h-screen flex flex-col py-24 align-center justify-center text-white" style={{ background: "radial-gradient(circle, rgba(22,18,70,1) 0%, rgba(20,21,44,1) 67%)" }}>
-            <div className="container px-4 flex flex-col justify-center items-center mx-auto">
-                <h2 className="font-extrabold text-priamry-white text-center text-xl md:text-4xl mb-4">Opal Event Management</h2>
-                <div className="relative w-full m-auto h-[240px]">
-                    <Image src="/opal-logo-nobg.png" alt="Opal logo" fill style={{ objectFit: 'contain' }} />
+        <MainLayout title="Event Planning Services">
+            <section id="hero" className="">
+                <div className="relative h-[400px] md:h-screen w-full bg-dark-purple flex max-h-screen flex-col min-h-[350px]">
+                    <Image src="/shardayyy-photography-fJzmPe-a0eU-unsplash.jpg" alt="" fill className="object-cover opacity-70" />
+                    <div className="m-auto  relative z-10 text-primary-white max-w-xl w-full px-4 mx-auto">
+                        <h1 className="text-4xl md:text-7xl tracking-wider text-center whitespace-pre-wrap leading-tight">{`An Experience
+To Remember`}</h1>
+                        <div className="relative z-10 mx-auto h-24 w-24 md:h-36 md:w-36 realtive md:mt-12">
+                            <Image src="/opal-logo-text.png" alt="" className="object-contain" fill />
+                        </div>
+                    </div>
                 </div>
-                <h2 className="font-extrabold text-transparent text-xl md:text-4xl bg-clip-text bg-gradient-to-r from-primary-blue to-primary-pink h-[45px] mt-4">Coming Soon...</h2>
-            </div>
-            <div className="flex flex-row justify-center items-center text-xl space-x-4 mt-12">
-                <a href="https://www.instagram.com/opal.eventmanagement/" target="_blank" rel="noreferer"><BsInstagram /></a>
-                <a href="https://www.facebook.com/Opal.EventManagement" target="_blank" rel="noreferer"><BsFacebook /></a>
-                {/* <a href="" target="_blank" rel="noreferer"><BsTiktok /></a> */}
-                <a href="https://api.whatsapp.com/send?phone=96176919481" target="_blank" rel="noreferer"><BsWhatsapp /></a>
-                <a href="mailto:info@opaleventmanagement.com" target="_blank" rel="noreferer"><AiOutlineMail /></a>
-            </div>
+            </section>
 
-            <div className="w-[200px] mx-auto h-[1px] border-t my-12 border-dashed"></div>
+            <section id="about" className="container py-20" style={{ scrollMarginTop: "70px" }}>
+                <h2 className="text-center text-light-purple font-semibold text-3xl tracking-wide">Wedding & Event Planning</h2>
+                <div className="h-[1px] bg-light-purple bg-opacity-70 w-16 mx-auto mt-6"></div>
+                <p className="max-w-xl mx-auto text-center mt-8 leading-loose tracking-wide text-primary-black">
+                    From made-to-measure weddings to elaborate corporate events that nurture company connections, and all kind of social events
+                    (birthdays, bachelors, first communion ...) we have a flair for transforming bespoke spaces into unforgettable experiences.
+                </p>
+            </section>
 
-            <div className="isolatepx-6 px-4 lg:px-8">
-                <form className="mx-auto max-w-xl" onSubmit={handleSubmit}>
-                    <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 text-black">
-                        <div>
-                            <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-primary-white">First name</label>
-                            <div className="mt-2.5">
-                                <input type="text" name="first-name" id="first-name" autoComplete="given-name" className="block w-full rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                            </div>
+            <section id="services" className="p-4 bg-dark-purple text-primary-white" style={{ scrollMarginTop: "70px" }}>
+                <div className="border border-white w-full p-6 md:p-12">
+                    <Swiper spaceBetween={0} slidesPerView={1} navigation={true} modules={[Navigation]} loop={true}>
+                        {services.map((service, index) => (
+                            <SwiperSlide key={service.title + index}>
+                                <div className="max-w-5xl mx-auto flex flex-col md:flex-row md:space-x-16 items-stretch">
+                                    <div className="flex-1 flex flex-col">
+                                        <p className="text-xs font-medium ">
+                                            {index + 1} / {services.length}
+                                        </p>
+                                        <div className="my-auto">
+                                            <h2 className="font-semibold text-3xl tracking-wide ">{service.title}</h2>
+                                            <div className="h-[1px] bg-primary-white bg-opacity-70 w-16 mt-2"></div>
+                                            <p
+                                                className="text-sm leading-[2.5] mt-6 font-light tracking-wider whitespace-pre-wrap"
+                                                dangerouslySetInnerHTML={{ __html: service.body }}
+                                            />
+                                        </div>
+                                        <Link
+                                            className="mt-auto block mb-8 bg-primary-white text-primary-black w-fit px-8 py-2 font-semibold text-sm"
+                                            href={service.button.url}
+                                        >
+                                            {service.button.text}
+                                        </Link>
+                                    </div>
+                                    <div className="relative flex-1 w-full aspect-[1]">
+                                        <Image src={service.image} alt="" fill className="object-cover" />
+                                    </div>
+                                </div>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </div>
+            </section>
+
+            <section id="gallery" className="container py-20" style={{ scrollMarginTop: "70px" }}>
+                <h2 className="text-center text-light-purple font-semibold text-3xl tracking-wide">Gallery</h2>
+                <div className="h-[1px] bg-light-purple bg-opacity-70 w-16 mx-auto mt-6"></div>
+
+                <Link
+                    className="mx-auto block mb-8 bg-primary-black text-primary-white w-fit px-8 py-2 font-semibold text-sm mt-10"
+                    href={"#gallery"}
+                >
+                    View more
+                </Link>
+            </section>
+
+            <section id="connect" className="p-4 bg-dark-purple text-primary-white" style={{ scrollMarginTop: "70px" }}>
+                <div className="border border-white w-full p-6 md:p-12">
+                    <div className="max-w-3xl mx-auto bg-primary-white text-primary-black flex flex-col md:flex-row">
+                        <div className="flex-1 py-8 md:py-32 px-6">
+                            <h2 className="font-semibold text-lg md:text-2xl tracking-wide text-center">Connect</h2>
+                            <div className="mx-auto h-[1px] bg-primary-black bg-opacity-70 w-16 mt-2"></div>
+                            <h3 className="text-xl md:text-4xl text-center pt-8">
+                                Let us help you <br />
+                                plan your perfect event!
+                            </h3>
+
+                            <Link
+                                className="mx-auto block bg-dark-purple text-primary-white w-fit px-8 py-2 font-semibold text-sm mt-10"
+                                href={"/contact-us"}
+                            >
+                                Get in touch
+                            </Link>
                         </div>
-                        <div>
-                            <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-primary-white">Last name</label>
-                            <div className="mt-2.5">
-                                <input type="text" name="last-name" id="last-name" autoComplete="family-name" className="block w-full rounded-md border-0 px-3.5 py-2 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                            </div>
-                        </div>
-                        <div className="sm:col-span-2">
-                            <label htmlFor="email" className="block text-sm font-semibold leading-6 text-primary-white">Email</label>
-                            <div className="mt-2.5">
-                                <input type="email" name="email" id="email" autoComplete="email" className="block w-full rounded-md border-0 px-3.5 py-2  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                            </div>
-                        </div>
-                        <div className="sm:col-span-2">
-                            <label htmlFor="phone-number" className="block text-sm font-semibold leading-6 text-primary-white">Phone number</label>
-                            <div className="relative mt-2.5">
-                                <input type="tel" name="phone-number" id="phone-number" autoComplete="tel" className="block w-full rounded-md border-0 px-3.5 py-2 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                            </div>
-                        </div>
-                        <div className="sm:col-span-2">
-                            <label htmlFor="message" className="block text-sm font-semibold leading-6 text-primary-white">Message</label>
-                            <div className="mt-2.5">
-                                <textarea name="message" id="message" rows={4} className="block w-full rounded-md border-0 px-3.5 py-2  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
-                            </div>
+                        <div className="aspect-square w-full md:aspect-auto md:h-auto flex-1 relative bg-dark-purple">
+                            <Image src="/andrew-knechel-gG6yehL64fo-unsplash.jpg" alt="" fill className="object-cover opacity-70" />
                         </div>
                     </div>
-                    <div className="mt-10">
-                        <button type="submit" className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Let{"'"}s talk</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+            </section>
 
-        </div>
-    )
-}
+            <section id="social" className="container max-w-3xl py-20" style={{ scrollMarginTop: "70px" }}>
+                <h2 className="text-center text-light-purple font-semibold text-3xl tracking-wide">Follow us on instagram</h2>
+                <a href="https://www.instagram.com/opal.eventmanagement/" target="_blank" rel="noreferer" className="text-center text-xs mt-1 w-full block text-dark-purple">@opal.eventmanagement</a>
+                <div className="h-[1px] bg-light-purple bg-opacity-70 w-16 mx-auto mt-4"></div>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-2 mt-8 ">
+                    <a
+                        href={"https://www.instagram.com/p/CgrXX-GIha6/?hl=en"}
+                        target="_blank"
+                        rel="noreferer"
+                        className="h-full w-full aspect-square relative block bg-light-purple bg-opacity-10"
+                    >
+                        <img
+                            src="https://scontent.fbey14-1.fna.fbcdn.net/v/t39.30808-6/296247137_142729181728514_78287181760707273_n.jpg?_nc_cat=111&cb=99be929b-59f725be&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=Vb0c3wHT5jAAX9zh_XN&_nc_ht=scontent.fbey14-1.fna&oh=00_AfDEXuR661612ynwyGCL6qULkr_rTRijGyccE24fb1CCjw&oe=64A3C7E5"
+                            alt=""
+                            className="z-10 object-cover absolute top-0 bottom-0 left-0 right-0 h-full w-full min-h-full max-h-full min-w-full max-w-full"
+                        />
+                    </a>
+                    <a
+                        href={"https://www.instagram.com/p/CgjpFh5I2r8/?hl=en"}
+                        target="_blank"
+                        rel="noreferer"
+                        className="h-full w-full aspect-square relative block bg-light-purple bg-opacity-10"
+                    >
+                        <img
+                            src="https://scontent.fbey14-1.fna.fbcdn.net/v/t39.30808-6/296252701_142728155061950_7891207211384784178_n.jpg?_nc_cat=102&cb=99be929b-59f725be&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=9MdFum-h09AAX8LL1UH&_nc_ht=scontent.fbey14-1.fna&oh=00_AfAJE82ibbygddaG0p_hQjEyLq_Y-BHsaASGTONQh_KhyQ&oe=64A46D96"
+                            alt=""
+                            className="z-10 object-cover absolute top-0 bottom-0 left-0 right-0 h-full w-full min-h-full max-h-full min-w-full max-w-full"
+                        />
+                    </a>
+                    <a
+                        href={"https://www.instagram.com/p/CghEJrtKrqd/?hl=en"}
+                        target="_blank"
+                        rel="noreferer"
+                        className="h-full w-full aspect-square relative block bg-light-purple bg-opacity-10"
+                    >
+                        <img
+                            src="https://scontent.fbey14-1.fna.fbcdn.net/v/t39.30808-6/296207902_142531371748295_2395481216795310925_n.jpg?_nc_cat=104&cb=99be929b-59f725be&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=3qSInMfJfBgAX_KfRat&_nc_ht=scontent.fbey14-1.fna&oh=00_AfACehPhcQGs_zk87yXFOWYRuT2jeJ6W9Q-Ic0ZBwbYhjQ&oe=64A4C71F"
+                            alt=""
+                            className="z-10 object-cover absolute top-0 bottom-0 left-0 right-0 h-full w-full min-h-full max-h-full min-w-full max-w-full"
+                        />
+                    </a>
+                    <a
+                        href={"https://www.instagram.com/p/Cgb6xTnKChD/?hl=en"}
+                        target="_blank"
+                        rel="noreferer"
+                        className="h-full w-full aspect-square relative block bg-light-purple bg-opacity-10"
+                    >
+                        <img
+                            src="https://scontent.fbey14-1.fna.fbcdn.net/v/t39.30808-6/295562259_142156588452440_8933460212726961354_n.jpg?_nc_cat=110&cb=99be929b-59f725be&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=I9cr9Z8LWBAAX_GT7C2&_nc_ht=scontent.fbey14-1.fna&oh=00_AfBhuEBHkfIYIYFWKwY3EsGD3g23WdFzBwGYVpqB7KqdQw&oe=64A433BB"
+                            alt=""
+                            className="z-10 object-cover absolute top-0 bottom-0 left-0 right-0 h-full w-full min-h-full max-h-full min-w-full max-w-full"
+                        />
+                    </a>
+                    <a
+                        href={"https://www.instagram.com/p/CgMklYLoYnN/?hl=en"}
+                        target="_blank"
+                        rel="noreferer"
+                        className="h-full w-full aspect-square relative block bg-light-purple bg-opacity-10"
+                    >
+                        <img
+                            src="https://scontent.fbey14-1.fna.fbcdn.net/v/t39.30808-6/294660281_140759225258843_357333441938281385_n.jpg?stp=dst-jpg_s1080x2048&_nc_cat=104&cb=99be929b-59f725be&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=jVPjgPGb6ZQAX9yDqRQ&_nc_ht=scontent.fbey14-1.fna&oh=00_AfDeR63SfmEab3nzQ2-xHS6txw-hxPkwIf3Dwt08i_7LOQ&oe=64A3DDB0"
+                            alt=""
+                            className="z-10 object-cover absolute top-0 bottom-0 left-0 right-0 h-full w-full min-h-full max-h-full min-w-full max-w-full"
+                        />
+                    </a>
+                </div>
+            </section>
+        </MainLayout>
+    );
+};
+
+export default home;

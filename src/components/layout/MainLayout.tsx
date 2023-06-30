@@ -36,7 +36,7 @@ const MainLayout = ({ header = true, footer = true, children, title = "Event Pla
                 <meta property="pinterest:image" content="/opal-logo.jpg" />
             </Head>
             {header && <Header />}
-            <main className="mt-16">{children}</main>
+            <main className="mt-[70px]">{children}</main>
             {footer && <Footer />}
         </>
     );
