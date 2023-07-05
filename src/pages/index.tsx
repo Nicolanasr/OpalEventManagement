@@ -1,10 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 
-import Banner from "@/components/Banner";
-import MainLayout from "@/components/layout/MainLayout";
 import Image from "next/image";
 import Link from "next/link";
+
+import MainLayout from "@/components/layout/MainLayout";
+import Testimonials from "@/components/PageComponents/Testimonials";
+import GetInTouch from "@/components/PageComponents/GetInTouch";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
@@ -20,7 +22,7 @@ const services: {
         url: string;
         text: string;
     };
-    image: string;
+    image: { url: string; quality: number };
 }[] = [
         {
             title: "Weddings",
@@ -31,7 +33,7 @@ All you need is <span style="font-family: var(--font-comorant);font-weight: 700;
                 text: "Learn more",
                 url: "#services/weddings",
             },
-            image: "/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg",
+            image: { url: "/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg", quality: 10 },
         },
         {
             title: "Birthdays",
@@ -42,7 +44,7 @@ We specialize in producing major birthday parties. Whether you are planning a sm
                 text: "Learn more",
                 url: "#services/weddings",
             },
-            image: "/jon-tyson-CP68p1fZS8k-unsplash.jpg",
+            image: { url: "/jon-tyson-CP68p1fZS8k-unsplash.jpg", quality: 10 },
         },
         {
             title: "Marriage Proposal",
@@ -51,7 +53,7 @@ We specialize in producing major birthday parties. Whether you are planning a sm
                 text: "Learn more",
                 url: "#services/weddings",
             },
-            image: "/MARRY-ME-DINING-SETUP-1.jpeg",
+            image: { url: "/MARRY-ME-DINING-SETUP-1.jpeg", quality: 30 },
         },
         {
             title: "Bachelor Parties",
@@ -60,7 +62,7 @@ We specialize in producing major birthday parties. Whether you are planning a sm
                 text: "Learn more",
                 url: "#services/weddings",
             },
-            image: "/BACHELOR-PARTY-AT-TERRACE-1.jpg",
+            image: { url: "/BACHELOR-PARTY-AT-TERRACE-1.jpg", quality: 60 },
         },
         {
             title: "Baptism",
@@ -72,7 +74,7 @@ We guarantee extraordinary ideas for your little one ’s christening, completel
                 text: "Learn more",
                 url: "#services/weddings",
             },
-            image: "/Blue-Gold-Garden-Baptism-Party-via-Karas-Party-Ideas-KarasPartyIdeas.com19-1.jpeg",
+            image: { url: "/Blue-Gold-Garden-Baptism-Party-via-Karas-Party-Ideas-KarasPartyIdeas.com19-1.jpeg", quality: 100 },
         },
         {
             title: "First communion",
@@ -82,7 +84,7 @@ We guarantee extraordinary ideas for your little one ’s christening, completel
                 text: "Learn more",
                 url: "#services/weddings",
             },
-            image: "/633df1a86846594d47705331-ubuy-online-shopping.jpg",
+            image: { url: "/633df1a86846594d47705331-ubuy-online-shopping.jpg", quality: 50 },
         },
 
         {
@@ -93,7 +95,7 @@ If you're planning to find out and share the gender of your baby before he or sh
                 text: "Learn more",
                 url: "#services/weddings",
             },
-            image: "/Unique-Gender-Reveal-Ideas-2022_1000x.webp",
+            image: { url: "/Unique-Gender-Reveal-Ideas-2022_1000x.webp", quality: 100 },
         },
         {
             title: "Baby Shower",
@@ -103,7 +105,7 @@ Your baby is almost here and your loved ones are ready to shower them with gifts
                 text: "Learn more",
                 url: "#services/weddings",
             },
-            image: "/Magical-Baby-Shower-2.jpeg",
+            image: { url: "/Magical-Baby-Shower-2.jpeg", quality: 10 },
         },
         {
             title: "Private Parties",
@@ -113,7 +115,7 @@ We Deliver A Seamless Event Management Service Catered To You & Your Ideas speci
                 text: "Learn more",
                 url: "#services/weddings",
             },
-            image: "/Hotham-Hall-private-event-design.jpg",
+            image: { url: "/Hotham-Hall-private-event-design.jpg", quality: 75 },
         },
         {
             title: "Divorce Parties",
@@ -123,7 +125,7 @@ We take care of The Divorce Party event: How to Throw a Divorce Or Breakup Party
                 text: "Learn more",
                 url: "#services/weddings",
             },
-            image: "/6b05c4f8-e57d-4043-b315-01f342218bc4.8e248a90f2f02c5c15746e362f276403.jpeg",
+            image: { url: "/6b05c4f8-e57d-4043-b315-01f342218bc4.8e248a90f2f02c5c15746e362f276403.jpeg", quality: 75 },
         },
     ];
 
@@ -132,12 +134,26 @@ const home = (props: Props) => {
         <MainLayout title="Event Planning Services">
             <section id="hero" className="">
                 <div className="relative h-[400px] md:h-screen w-full bg-dark-purple flex max-h-screen flex-col min-h-[350px]">
-                    <Image src="/shardayyy-photography-fJzmPe-a0eU-unsplash.jpg" alt="" fill className="object-cover opacity-70" />
+                    <Image
+                        src="/shardayyy-photography-fJzmPe-a0eU-unsplash.jpg"
+                        alt=""
+                        fill
+                        className="object-cover opacity-70"
+                        priority
+                        quality={100}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
                     <div className="m-auto  relative z-10 text-primary-white max-w-xl w-full px-4 mx-auto">
-                        <h1 className="text-4xl md:text-7xl tracking-wider text-center whitespace-pre-wrap leading-tight">{`An Experience
-To Remember`}</h1>
+                        <h1 className="text-4xl md:text-7xl tracking-wider text-center whitespace-pre-wrap leading-tight">{`Your Event Is
+Our Expertise`}</h1>
                         <div className="relative z-10 mx-auto h-24 w-24 md:h-36 md:w-36 realtive md:mt-12">
-                            <Image src="/opal-logo-text.png" alt="" className="object-contain" fill />
+                            <Image
+                                src="/opal-logo-text.png"
+                                alt=""
+                                className="object-contain"
+                                fill
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
                         </div>
                     </div>
                 </div>
@@ -178,7 +194,14 @@ To Remember`}</h1>
                                         </Link>
                                     </div>
                                     <div className="relative flex-1 w-full aspect-[1]">
-                                        <Image src={service.image} alt="" fill className="object-cover" />
+                                        <Image
+                                            src={service.image.url}
+                                            alt=""
+                                            fill
+                                            className="object-cover"
+                                            quality={service.image.quality}
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                        />
                                     </div>
                                 </div>
                             </SwiperSlide>
@@ -192,41 +215,33 @@ To Remember`}</h1>
                 <div className="h-[1px] bg-light-purple bg-opacity-70 w-16 mx-auto mt-6"></div>
 
                 <Link
-                    className="mx-auto block mb-8 bg-primary-black text-primary-white w-fit px-8 py-2 font-semibold text-sm mt-10"
-                    href={"#gallery"}
+                    className="mx-auto block mb-8 bg-dark-purple text-primary-white w-fit px-8 py-2 font-semibold text-sm mt-10"
+                    href={"/gallery"}
                 >
                     View more
                 </Link>
             </section>
 
-            <section id="connect" className="p-4 bg-dark-purple text-primary-white" style={{ scrollMarginTop: "70px" }}>
-                <div className="border border-white w-full p-6 md:p-12">
-                    <div className="max-w-3xl mx-auto bg-primary-white text-primary-black flex flex-col md:flex-row">
-                        <div className="flex-1 py-8 md:py-32 px-6">
-                            <h2 className="font-semibold text-lg md:text-2xl tracking-wide text-center">Connect</h2>
-                            <div className="mx-auto h-[1px] bg-primary-black bg-opacity-70 w-16 mt-2"></div>
-                            <h3 className="text-xl md:text-4xl text-center pt-8">
-                                Let us help you <br />
-                                plan your perfect event!
-                            </h3>
 
-                            <Link
-                                className="mx-auto block bg-dark-purple text-primary-white w-fit px-8 py-2 font-semibold text-sm mt-10"
-                                href={"/contact-us"}
-                            >
-                                Get in touch
-                            </Link>
-                        </div>
-                        <div className="aspect-square w-full md:aspect-auto md:h-auto flex-1 relative bg-dark-purple">
-                            <Image src="/andrew-knechel-gG6yehL64fo-unsplash.jpg" alt="" fill className="object-cover opacity-70" />
-                        </div>
-                    </div>
-                </div>
+
+            <section id="testimonials" className="bg-gray-100">
+                <Testimonials />
+            </section>
+
+            <section id="connect" style={{ scrollMarginTop: "70px" }}>
+                <GetInTouch />
             </section>
 
             <section id="social" className="container max-w-3xl py-20" style={{ scrollMarginTop: "70px" }}>
                 <h2 className="text-center text-light-purple font-semibold text-3xl tracking-wide">Follow us on instagram</h2>
-                <a href="https://www.instagram.com/opal.eventmanagement/" target="_blank" rel="noreferer" className="text-center text-xs mt-1 w-full block text-dark-purple">@opal.eventmanagement</a>
+                <a
+                    href="https://www.instagram.com/opal.eventmanagement/"
+                    target="_blank"
+                    rel="noreferer"
+                    className="text-center text-xs mt-1 w-full block text-dark-purple"
+                >
+                    @opal.eventmanagement
+                </a>
                 <div className="h-[1px] bg-light-purple bg-opacity-70 w-16 mx-auto mt-4"></div>
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-2 mt-8 ">
                     <a

@@ -14,7 +14,7 @@ const MainLayout = ({ header = true, footer = true, children, title = "Event Pla
     return (
         <>
             <Head>
-                {/* <title>{title} | Opal Event Management</title> */}
+                <title>{title} | Opal Event Management</title>
                 <link rel="shortcut icon" href="/opal-logo-round.jpg" type="image/x-icon" />
 
                 <meta name="description" content="Plan your dream event with ease. Our expert event planners will handle every detail, from start to finish, creating unforgettable experiences. Stress-free, personalized, and flawless event coordination awaits. Contact us today!" />
