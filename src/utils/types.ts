@@ -23,3 +23,13 @@ export type PortfolioType = {
 	date: string;
 	colors: ColorValueHex[];
 };
+
+export type ServiceType = {
+	title: string;
+	body: string;
+	button: {
+		url: string;
+		text: string;
+	};
+	image: { url: string; quality: number };
+};

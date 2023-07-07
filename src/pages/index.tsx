@@ -12,124 +12,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css/navigation";
 import "swiper/css";
-import { portfolioData } from "@/utils/data";
+import { portfolioData, servicesData } from "@/utils/data";
 import dayjs from "dayjs";
 
 type Props = {};
-
-const services: {
-    title: string;
-    body: string;
-    button: {
-        url: string;
-        text: string;
-    };
-    image: { url: string; quality: number };
-}[] = [
-        {
-            title: "Weddings",
-            body: `Offers a variety of packages to meet your specific wedding planning needs.
-We set a concept, create ideas, choose venue, decorate, animate, manage and execute customized and high end weddings
-All you need is <span style="font-family: var(--font-comorant);font-weight: 700;">LOVE</span> and a Wedding planner`,
-            button: {
-                text: "Learn more",
-                url: "#services/weddings",
-            },
-            image: { url: "/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg", quality: 10 },
-        },
-        {
-            title: "Birthdays",
-            body: `Whatever birthday party you are organizing, and whatever budget you are working with – we have the expertise & creative skills to create your dream event.
-We specialize in producing major birthday parties. Whether you are planning a small party; a bespoke nightclub for a 21st Birthday; a mini festival or a decadent soiree for a 50th.
-<span style="font-family: var(--font-comorant);font-weight: 700;">We've got you covered</span>`,
-            button: {
-                text: "Learn more",
-                url: "#services/weddings",
-            },
-            image: { url: "/jon-tyson-CP68p1fZS8k-unsplash.jpg", quality: 10 },
-        },
-        {
-            title: "Marriage Proposal",
-            body: `A proposal event is an opportunity for an individual to create a memorable and heartfelt experience for their partner. It goes beyond simply asking the question; it is about creating an atmosphere that reflects the unique bond shared between the couple. Whether it is an intimate setting or a grand gesture, the proposal event aims to capture the essence of their love story.`,
-            button: {
-                text: "Learn more",
-                url: "#services/weddings",
-            },
-            image: { url: "/MARRY-ME-DINING-SETUP-1.jpeg", quality: 30 },
-        },
-        {
-            title: "Bachelor Parties",
-            body: `It’s your best friend’s special night. Soon he or she will be mar- ried, and you want to send them off into that new life in style. Throw a stag party or a bachelor- ette fete with planning help from We Duet All Party Planners. We’ll help you throw a party that truly comes to life.`,
-            button: {
-                text: "Learn more",
-                url: "#services/weddings",
-            },
-            image: { url: "/BACHELOR-PARTY-AT-TERRACE-1.jpg", quality: 60 },
-        },
-        {
-            title: "Baptism",
-            body: `A baptism or christening is a time to welcome a new baby into the family faith.
-The party that follows the ceremony is a time for celebration of new life, tradition, and the circle of family and friends.
-We guarantee extraordinary ideas for your little one ’s christening, completely tailored to your wishes.
-<span style="font-family: var(--font-comorant);font-weight: 700;">We can create uniquely themed and beautiful parties for your little one.</span> `,
-            button: {
-                text: "Learn more",
-                url: "#services/weddings",
-            },
-            image: { url: "/Blue-Gold-Garden-Baptism-Party-via-Karas-Party-Ideas-KarasPartyIdeas.com19-1.jpeg", quality: 100 },
-        },
-        {
-            title: "First communion",
-            body: `The First Holy Communion is a very important occasion for people who follow the Catholic faith. It is an intensely religious event and is as important as planning parties for other milestones like a baby shower or first birthday. This is a special day for your little one and the day is often celebrated with the closest family and friends.
-<span style="font-family: var(--font-comorant);font-weight: 700;">Beautiful Ideas to Celebrate Your Child’s First Communion</span>`,
-            button: {
-                text: "Learn more",
-                url: "#services/weddings",
-            },
-            image: { url: "/633df1a86846594d47705331-ubuy-online-shopping.jpg", quality: 50 },
-        },
-
-        {
-            title: "Gender Reveal",
-            body: `One of the most exciting parts of being pregnant is finding out whether you're expecting a little boy or girl, and a gender reveal party is a cool way to get friends and family involved.
-If you're planning to find out and share the gender of your baby before he or she is born, here's how to plan a gender reveal party, as well as some creative party ideas to make your reveal even more memorable and fun.`,
-            button: {
-                text: "Learn more",
-                url: "#services/weddings",
-            },
-            image: { url: "/Unique-Gender-Reveal-Ideas-2022_1000x.webp", quality: 100 },
-        },
-        {
-            title: "Baby Shower",
-            body: `A baby shower is a party of gift-giving or a ceremony that has different names in different cul- tures. It celebrates the delivery or expected birth of a child or the transformation of a woman into a mother.
-Your baby is almost here and your loved ones are ready to shower them with gifts and good wishes. Sure taking your baby shower virtual is a big shift from what you had planned, but don't let that stop you. Gather your list of guests and let's get started!`,
-            button: {
-                text: "Learn more",
-                url: "#services/weddings",
-            },
-            image: { url: "/Magical-Baby-Shower-2.jpeg", quality: 10 },
-        },
-        {
-            title: "Private Parties",
-            body: `We Have The Creativity & Event Management Skills To Make Your Ideas Come Alive.
-We Deliver A Seamless Event Management Service Catered To You & Your Ideas specially for your <span style="font-family: var(--font-comorant);font-weight: 700;">PRIVATE PARTIES</span>`,
-            button: {
-                text: "Learn more",
-                url: "#services/weddings",
-            },
-            image: { url: "/Hotham-Hall-private-event-design.jpg", quality: 75 },
-        },
-        {
-            title: "Divorce Parties",
-            body: `A fun step by step guide to throwing a divorce or breakup party. ...
-We take care of The Divorce Party event: How to Throw a Divorce Or Breakup Party !`,
-            button: {
-                text: "Learn more",
-                url: "#services/weddings",
-            },
-            image: { url: "/6b05c4f8-e57d-4043-b315-01f342218bc4.8e248a90f2f02c5c15746e362f276403.jpeg", quality: 75 },
-        },
-    ];
 
 const home = (props: Props) => {
     return (
@@ -173,12 +59,12 @@ Our Expertise`}</h1>
             <section id="services" className="p-4 bg-dark-purple text-primary-white" style={{ scrollMarginTop: "70px" }}>
                 <div className="border border-white w-full p-6 md:p-12">
                     <Swiper spaceBetween={0} slidesPerView={1} navigation={true} modules={[Navigation]} loop={true}>
-                        {services.map((service, index) => (
+                        {servicesData.map((service, index) => (
                             <SwiperSlide key={service.title + index}>
                                 <div className="max-w-5xl mx-auto flex flex-col md:flex-row md:space-x-16 items-stretch">
                                     <div className="flex-1 flex flex-col">
                                         <p className="text-xs font-medium ">
-                                            {index + 1} / {services.length}
+                                            {index + 1} / {servicesData.length}
                                         </p>
                                         <div className="my-auto">
                                             <h2 className="font-semibold text-3xl tracking-wide ">{service.title}</h2>
