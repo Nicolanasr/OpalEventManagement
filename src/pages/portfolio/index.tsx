@@ -81,7 +81,7 @@ const Portfolio = ({ data }: Props) => {
 
     useEffect(() => {
         const handleChangeDataByFilters = (): void => {
-            let tmpData: PortfolioType[] = JSON.parse(JSON.stringify(dataToDisplay));
+            let tmpData: PortfolioType[] = JSON.parse(JSON.stringify(data));
 
             switch (filters.sortBy) {
                 case 0:
@@ -103,17 +103,17 @@ const Portfolio = ({ data }: Props) => {
 
             if (filters.eventType.length > 0) {
                 const tmpFilterByEvent: PortfolioType[] = [];
-                filters.eventType.forEach((i) => {
-                    const eventType = Object.values(eventTypes)[i];
 
-                    for (let index = 0; index < tmpData.length; index++) {
-                        const element = tmpData[index];
+                for (let index = 0; index < tmpData.length; index++) {
+                    const element = tmpData[index];
+                    filters.eventType.forEach((i) => {
+                        const eventType = Object.values(eventTypes)[i];
 
                         if (element.eventType === eventType) {
                             tmpFilterByEvent.push(element);
                         }
-                    }
-                });
+                    });
+                }
 
                 tmpData = tmpFilterByEvent;
             }
@@ -121,7 +121,7 @@ const Portfolio = ({ data }: Props) => {
             if (filters.date.from !== null) {
                 const tmpFilterByDate: PortfolioType[] = [];
 
-                tmpData.forEach(element => {
+                tmpData.forEach((element) => {
                     if (dayjs(element.date).isAfter(dayjs(filters.date.from))) {
                         tmpFilterByDate.push(element);
                     }
@@ -133,7 +133,7 @@ const Portfolio = ({ data }: Props) => {
             if (filters.date.to !== null) {
                 const tmpFilterByDate: PortfolioType[] = [];
 
-                tmpData.forEach(element => {
+                tmpData.forEach((element) => {
                     if (dayjs(element.date).isBefore(dayjs(filters.date.to))) {
                         tmpFilterByDate.push(element);
                     }
@@ -144,17 +144,16 @@ const Portfolio = ({ data }: Props) => {
 
             if (filters.colors.length > 0) {
                 const tmpFilterByColor: PortfolioType[] = [];
-                filters.colors.forEach((i) => {
-                    const color = colorsData[i];
+                for (let index = 0; index < tmpData.length; index++) {
+                    const element = tmpData[index];
 
-                    for (let index = 0; index < tmpData.length; index++) {
-                        const element = tmpData[index];
-
+                    filters.colors.forEach((i) => {
+                        const color = colorsData[i];
                         if (element.colors.includes(color) && !tmpFilterByColor.includes(element)) {
                             tmpFilterByColor.push(element);
                         }
-                    }
-                });
+                    });
+                }
 
                 tmpData = tmpFilterByColor;
             }
