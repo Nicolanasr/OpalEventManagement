@@ -12,6 +12,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css/navigation";
 import "swiper/css";
+import { portfolioData } from "@/utils/data";
+import dayjs from "dayjs";
 
 type Props = {};
 
@@ -213,6 +215,19 @@ Our Expertise`}</h1>
             <section id="gallery" className="container py-20" style={{ scrollMarginTop: "70px" }}>
                 <h2 className="text-center text-light-purple font-semibold text-3xl tracking-wide">Gallery</h2>
                 <div className="h-[1px] bg-light-purple bg-opacity-70 w-16 mx-auto mt-6"></div>
+
+                <div className="px-4 max-w-sm sm:max-w-full grid gap-6 sm:grid-cols-2 md:grid-cols-3 md:gap-9 lg:gap-4 mt-8 mx-auto">
+                    {portfolioData.map((e, index) => {
+                        return index < 3 && (
+                            <Link href={`/portfolio/${e.slug}`} key={e.slug + index} className="flex flex-col w-full bg-white aspect-[9/13] max-w-[300px] mx-auto">
+                                <div className="relative flex-1">
+                                    <Image src={e.banner} alt="" fill className="object-cover" />
+                                </div>
+                                <p className="block mt-auto py-3 w-full bg-dark-purple text-white text-center font-medium">{e.title}</p>
+                            </Link>
+                        );
+                    })}
+                </div>
 
                 <Link
                     className="mx-auto block mb-8 bg-dark-purple text-primary-white w-fit px-8 py-2 font-semibold text-sm mt-10"
