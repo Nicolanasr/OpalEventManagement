@@ -1,28 +1,33 @@
-import MainLayout from "@/components/layout/MainLayout";
+import { GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-type Props = {};
+import MainLayout from "@/components/layout/MainLayout";
+import { portfolioData } from "@/utils/data";
+import { ColorValueHex, PortfolioType, eventTypes } from "@/utils/types";
+import dayjs from "dayjs";
 
-const eventTypes: string[] = [
-    "Weddings",
-    "Birthdays",
-    "Marriage Proposal",
-    "Bachelor Parties",
-    "Baptism",
-    "First communion",
-    "Gender Reveal",
-    "Baby Shower",
-    "Private Parties",
-    "Divorce Parties",
-];
+type Props = {
+    data: PortfolioType[];
+};
 
 const sortByData: string[] = ["Title, DESC", "Title, ASC", "Event date, DESC", "Event date, ASC"];
 
-const colorsData: string[] = ["Orange", "Green", "Red", "Purple", "Blue"];
+const Portfolio = ({ data }: Props) => {
+    let colorsData: ColorValueHex[] = [];
 
-const Gallery = (props: Props) => {
+    for (let index = 0; index < data.length; index++) {
+        const element = data[index];
+        element.colors.forEach((c) => {
+            if (!colorsData.includes(c)) {
+                colorsData.push(c);
+            }
+        });
+    }
+
+    const [dataToDisplay, setDataToDisplay] = useState<PortfolioType[]>(data);
+
     const [filters, setFilters] = useState<{
         sortBy: number | -1;
         eventType: number[];
@@ -30,12 +35,12 @@ const Gallery = (props: Props) => {
         colors: number[];
     }>({
         sortBy: -1,
-        eventType: [],
+        eventType: Array.from({ length: Object.keys(eventTypes).length }, (v, i) => i), // gives [0, 1, 2, 3, 4],
         date: { from: null, to: null },
-        colors: [],
+        colors: Array.from({ length: Object.keys(colorsData).length }, (v, i) => i),
     });
 
-    const handleFilterChanges = (params: { key: "sortBy" | "eventType" | "date.from" | "date.to" | "colors"; index: number; value: any }) => {
+    const handleFilterChanges = (params: { key: "sortBy" | "eventType" | "date.from" | "date.to" | "colors"; index: number; value: any }): void => {
         const tmpFilters: {
             sortBy: number | -1;
             eventType: number[];
@@ -74,13 +79,103 @@ const Gallery = (props: Props) => {
         }
     };
 
+    useEffect(() => {
+        const handleChangeDataByFilters = (): void => {
+            let tmpData: PortfolioType[] = JSON.parse(JSON.stringify(dataToDisplay));
+
+            switch (filters.sortBy) {
+                case 0:
+                    tmpData.sort((a, b) => a.title.localeCompare(b.title));
+                    break;
+                case 1:
+                    tmpData.sort((a, b) => b.title.localeCompare(a.title));
+                    break;
+                case 2:
+                    tmpData.sort((a, b) => (dayjs(a.date).isBefore(b.date) ? 0 : 1));
+                    break;
+                case 3:
+                    tmpData.sort((a, b) => (dayjs(a.date).isAfter(b.date) ? 0 : 1));
+                    break;
+                default:
+                    tmpData = JSON.parse(JSON.stringify(data));
+                    break;
+            }
+
+            if (filters.eventType.length > 0) {
+                const tmpFilterByEvent: PortfolioType[] = [];
+                filters.eventType.forEach((i) => {
+                    const eventType = Object.values(eventTypes)[i];
+
+                    for (let index = 0; index < tmpData.length; index++) {
+                        const element = tmpData[index];
+
+                        if (element.eventType === eventType) {
+                            tmpFilterByEvent.push(element);
+                        }
+                    }
+                });
+
+                tmpData = tmpFilterByEvent;
+            }
+
+            if (filters.date.from !== null) {
+                const tmpFilterByDate: PortfolioType[] = [];
+
+                tmpData.forEach(element => {
+                    if (dayjs(element.date).isAfter(dayjs(filters.date.from))) {
+                        tmpFilterByDate.push(element);
+                    }
+                });
+
+                tmpData = tmpFilterByDate;
+            }
+
+            if (filters.date.to !== null) {
+                const tmpFilterByDate: PortfolioType[] = [];
+
+                tmpData.forEach(element => {
+                    if (dayjs(element.date).isBefore(dayjs(filters.date.to))) {
+                        tmpFilterByDate.push(element);
+                    }
+                });
+
+                tmpData = tmpFilterByDate;
+            }
+
+            if (filters.colors.length > 0) {
+                const tmpFilterByColor: PortfolioType[] = [];
+                filters.colors.forEach((i) => {
+                    const color = colorsData[i];
+
+                    for (let index = 0; index < tmpData.length; index++) {
+                        const element = tmpData[index];
+
+                        if (element.colors.includes(color) && !tmpFilterByColor.includes(element)) {
+                            tmpFilterByColor.push(element);
+                        }
+                    }
+                });
+
+                tmpData = tmpFilterByColor;
+            }
+
+            setDataToDisplay(tmpData);
+        };
+
+        handleChangeDataByFilters();
+
+        // return () => {
+        //     handleChangeDataByFilters();
+        // }
+    }, [filters]);
+
     console.log(filters);
 
     return (
-        <MainLayout title="Gallery">
+        <MainLayout title="Portfolio">
             <section className="container">
                 <div className="py-8">
-                    <h1 className="text-3xl text-center">Gallery</h1>
+                    <h1 className="text-3xl text-center">Portfolio</h1>
                 </div>
                 <div className="flex border-t">
                     <aside className="w-80 p-4 border-r hidden lg:block sticky top-0">
@@ -118,11 +213,11 @@ const Gallery = (props: Props) => {
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
                                             viewBox="0 0 24 24"
-                                            stroke-width="1.5"
+                                            strokeWidth="1.5"
                                             stroke="currentColor"
                                             className="h-4 w-4"
                                         >
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                                         </svg>
                                     </span>
                                 </summary>
@@ -143,7 +238,7 @@ const Gallery = (props: Props) => {
                                     </header>
 
                                     <ul className="space-y-1 border-t border-gray-200 p-4">
-                                        {eventTypes.map((e, index) => (
+                                        {Object.values(eventTypes).map((e, index) => (
                                             <li key={e + index}>
                                                 <label
                                                     htmlFor={`Filter${e}`}
@@ -185,11 +280,11 @@ const Gallery = (props: Props) => {
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
                                             viewBox="0 0 24 24"
-                                            stroke-width="1.5"
+                                            strokeWidth="1.5"
                                             stroke="currentColor"
                                             className="h-4 w-4"
                                         >
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                                         </svg>
                                     </span>
                                 </summary>
@@ -247,11 +342,11 @@ const Gallery = (props: Props) => {
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
                                             viewBox="0 0 24 24"
-                                            stroke-width="1.5"
+                                            strokeWidth="1.5"
                                             stroke="currentColor"
                                             className="h-4 w-4"
                                         >
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                                         </svg>
                                     </span>
                                 </summary>
@@ -297,7 +392,10 @@ const Gallery = (props: Props) => {
                                                         }}
                                                     />
 
-                                                    <span className="text-sm font-medium text-gray-700">{c}</span>
+                                                    <span
+                                                        className="text-sm font-medium text-gray-700 h-6 w-6 rounded-full shadow"
+                                                        style={{ backgroundColor: c }}
+                                                    ></span>
                                                 </label>
                                             </li>
                                         ))}
@@ -307,13 +405,14 @@ const Gallery = (props: Props) => {
                         </div>
                     </aside>
                     <div className="flex-1 p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                        {["", "", "", "", "", "", "", ""].map((e, index) => {
+                        {dataToDisplay.map((e, index) => {
                             return (
-                                <Link href="" key={e + index} className="flex flex-col w-full bg-white aspect-[11/16]">
-                                    <div className="relative flex-1 m-8">
-                                        <Image src="/633df1a86846594d47705331-ubuy-online-shopping.jpg" alt="" fill className="object-cover" />
+                                <Link href={`/portfolio/${e.slug}`} key={e.slug + index} className="flex flex-col w-full bg-white aspect-[11/16]">
+                                    <div className="relative flex-1 m-8 hover:m-4 transition-all">
+                                        <Image src={e.banner} alt="" fill className="object-cover" />
                                     </div>
-                                    <p className="block mt-auto py-3 w-full bg-dark-purple text-white text-center font-medium">Alana + Ben</p>
+                                    <p className="block mt-auto py-3 w-full bg-dark-purple text-white text-center font-medium">{e.title}</p>
+                                    <p className="text-xs text-center ">{dayjs(e.date).format("DD MMMM YYYY")}</p>
                                 </Link>
                             );
                         })}
@@ -324,4 +423,14 @@ const Gallery = (props: Props) => {
     );
 };
 
-export default Gallery;
+export default Portfolio;
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+    const data: PortfolioType[] = portfolioData;
+
+    return {
+        props: {
+            data: data,
+        },
+    };
+};

@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 
-import { Roboto, Cormorant_Garamond, Dancing_Script, Montserrat } from "next/font/google";
+import { Roboto, Cormorant_Garamond, Dancing_Script, Raleway } from "next/font/google";
 
 const roboto = Roboto({
     weight: ["100", "300", "400", "500", "700", "900"],
@@ -23,7 +23,7 @@ export const dancing = Dancing_Script({
     display: "swap",
 });
 
-export const montserrat = Montserrat({
+export const raleway = Raleway({
     weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
     subsets: ["latin"],
     display: "swap",
@@ -75,7 +75,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 />
                 <meta property="pinterest:image" content="/opal-logo.jpg" />
             </Head>
-            <div className={`${montserrat.className} bg-primary-white`}>
+            <div className={`${raleway.className} bg-primary-white`}>
                 <Component {...pageProps} />
             </div>
         </>

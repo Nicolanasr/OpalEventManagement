@@ -216,7 +216,7 @@ Our Expertise`}</h1>
 
                 <Link
                     className="mx-auto block mb-8 bg-dark-purple text-primary-white w-fit px-8 py-2 font-semibold text-sm mt-10"
-                    href={"/gallery"}
+                    href={"/portfolio"}
                 >
                     View more
                 </Link>
